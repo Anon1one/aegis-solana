@@ -2,6 +2,12 @@
 
 An AI agent with a wallet is one bad payment request away from losing funds. Aegis checks **who is getting paid** and answers **PAY**, **BLOCK** or **ASK_HUMAN** before the payment leaves. It enforces at the last point where that payment can still be stopped: inside the treasury transfer on one rail, and before the x402 wallet signs on the other. The guard is deployed on Solana devnet at `CTvcbeF4MziHgc1BsiAQY9fZkub9hYFS8CJ336V1QJG6`, and all five demo beats have run there with Circle's devnet USDC (2026-10-15). The automated tests run on a local validator. No x402.org interoperability result is claimed.
 
+## Status
+
+- **Live on Solana devnet.** Program [`CTvcbeF4MziHgc1BsiAQY9fZkub9hYFS8CJ336V1QJG6`](https://explorer.solana.com/address/CTvcbeF4MziHgc1BsiAQY9fZkub9hYFS8CJ336V1QJG6?cluster=devnet), with a vault funded with Circle's devnet USDC.
+- **All five demo scenarios ran on devnet** (2026-10-15): a clean payment, a recipient with an attacker delegate, a look-alike USDC over x402, an injected agent that skips Aegis, and the owner's kill switch. Every result is a public transaction.
+- **All tests pass:** 343 TypeScript tests (278 unit tests on fake chains, 65 on a local validator) and 8 Rust unit tests for the program's spending cap.
+
 ## Two payment rails
 
 ```text
@@ -69,7 +75,7 @@ Each beat returns structured results and prints short text plus Explorer links f
 | Reputation and LLM | Reputation is a mock; `claude -p` is optional and skipped in the demo | Same limitations |
 | Refusal receipts | Real `log_refusal` transactions, separate from the payment refusal | A receipt was written on devnet in the bad-mint beat |
 
-The TypeScript test files define **343 tests: 278 unit cases on fake chains and 65 cases on a local validator**. The owner last reported a passing 333-test full suite, before the ten new unit cases. The local validator suite includes every demo beat; the program also has Rust policy unit tests.
+The TypeScript test files define **343 tests: 278 unit cases on fake chains and 65 cases on a local validator**, and all of them pass with `yarn test` (last run 2026-10-15). The local validator suite includes every demo beat; the program also has 8 Rust unit tests for its spending cap, which pass with `cargo test`.
 
 ## Security model and limits
 
